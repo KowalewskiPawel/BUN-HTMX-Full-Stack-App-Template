@@ -7,15 +7,17 @@ const app = new Elysia()
   .get("/", ({ html }) =>
     html(
       <BaseHTML>
-        <body class="flex w-full h-screen justify-center items-center">
-          <button hx-post="/clicked" hx-swap="outerHTML">
-            Click me!
-          </button>
-        </body>
+        <body
+          class="flex w-full h-screen justify-center items-center"
+          hx-get="/todos"
+          hx-trigger="load"
+          hx-swap="innerHTML"
+        ></body>
       </BaseHTML>
     )
   )
   .post("/clicked", () => <div class="text-blue-600">Response from BUN!</div>)
+  .get("/todos", () => <TodoList todos={db} />)
   .listen(3000);
 
 console.log(
@@ -36,3 +38,30 @@ const BaseHTML = ({ children }: elements.Children) => `
 
 ${children}
 `;
+
+type Todo = {
+  id: number;
+  content: string;
+  completed: boolean;
+};
+
+const db: Todo[] = [
+  { id: 1, content: "Finish this app", completed: true },
+  { id: 2, content: "Add SQL", completed: false },
+];
+
+const TodoItem = ({ content, completed, id }: Todo) => (
+  <div class="flex flex-row space-x-3">
+    <p>{content}</p>
+    <input type="checkbox" checked={completed} />
+    <button class="text-red-500">X</button>
+  </div>
+);
+
+const TodoList = ({ todos }: { todos: Todo[] }) => (
+  <div>
+    {todos.map((todo) => (
+      <TodoItem {...todo} />
+    ))}
+  </div>
+);
