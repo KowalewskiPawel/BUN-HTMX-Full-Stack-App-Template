@@ -15,7 +15,7 @@ const app = new Elysia()
           hx-get="/todos"
           hx-trigger="load"
           hx-swap="innerHTML"
-        ></body>
+        />
       </BaseHTML>
     )
   )
