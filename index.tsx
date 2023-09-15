@@ -18,32 +18,36 @@ const app = new Elysia()
   )
   .post("/clicked", () => <div class="text-blue-600">Response from BUN!</div>)
   .get("/todos", () => <TodoList todos={db} />)
-  .post(
-    "/todos/toggle/:id",
-    ({ params }) => {
-      const todo = db.find((todo) => todo.id === params.id);
-      if (todo) {
-        todo.completed = !todo.completed;
-        return <TodoItem {...todo} />;
-      }
-    },
-    {
-      params: t.Object({
-        id: t.Numeric(),
-      }),
+  .post("/todos/toggle/:id", ({ params }) => {
+    const todo = db.find((todo) => todo.id === params.id);
+    if (todo) {
+      todo.completed = !todo.completed;
+      return <TodoItem {...todo} />;
     }
-  )
-  .delete(
-    "/todos/:id",
-    ({ params }) => {
-      const todo = db.find((todo) => todo.id === params.id);
-      if (todo) {
-        db.splice(db.indexOf(todo), 1);
+  })
+  .delete("/todos/:id", ({ params }) => {
+    const todo = db.find((todo) => todo.id === params.id);
+    if (todo) {
+      db.splice(db.indexOf(todo), 1);
+    }
+  })
+  .post(
+    "/todos",
+    ({ body }) => {
+      if (body.content.length === 0) {
+        throw new Error("Content cannot be empty");
       }
+      const newTodo = {
+        id: crypto.randomUUID(),
+        content: body.content,
+        completed: false,
+      };
+      db.push(newTodo);
+      return <TodoItem {...newTodo} />;
     },
     {
-      params: t.Object({
-        id: t.Numeric(),
+      body: t.Object({
+        content: t.String(),
       }),
     }
   )
@@ -69,14 +73,14 @@ ${children}
 `;
 
 type Todo = {
-  id: number;
+  id: string;
   content: string;
   completed: boolean;
 };
 
 const db: Todo[] = [
-  { id: 1, content: "Finish this app", completed: true },
-  { id: 2, content: "Add SQL", completed: false },
+  { id: "1", content: "Finish this app", completed: true },
+  { id: "2", content: "Add SQL", completed: false },
 ];
 
 const TodoItem = ({ content, completed, id }: Todo) => (
@@ -105,5 +109,13 @@ const TodoList = ({ todos }: { todos: Todo[] }) => (
     {todos.map((todo) => (
       <TodoItem {...todo} />
     ))}
+    <TodoForm />
   </div>
+);
+
+const TodoForm = () => (
+  <form class="flex flex-row space-x-3" hx-post="/todos" hx-swap="beforebegin">
+    <input type="text" name="content" class="border border-black" />
+    <button type="submit">Add</button>
+  </form>
 );
