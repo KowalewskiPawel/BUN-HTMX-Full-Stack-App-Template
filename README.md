@@ -1,9 +1,15 @@
-# bun-htmx
+# BUN-HTMX Template
 
-To install dependencies:
+### Installing the dependencies
 
 ```bash
 bun install
+```
+
+### Setting up the SQLite Database Instance
+
+```bash
+bun setup_db
 ```
 
 ### Start
