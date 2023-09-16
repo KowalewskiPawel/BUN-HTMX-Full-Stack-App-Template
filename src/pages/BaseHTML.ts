@@ -1,5 +1,13 @@
 import * as elements from "typed-html";
 
+/* 
+    This is the Outer HTML Element that wraps the whole app
+    Inside 3 JS scripts are fetched:
+    - HTMX script for parsing HTMX specific tags
+    - Tailwind CSS for custom Tailwind CSS classes OPTIONAL
+    - Hyperscript for parsing the inline client-side JS scripts
+*/
+
 export const BaseHTML = ({ children }: elements.Children) => `
 <!DOCTYPE html>
 <html lang="en">
