@@ -23,7 +23,7 @@ export const getTodo = (id: string) => {
 
   // Stop executing the method if no record is found
 
-  if (!queryResult) return;
+  if (!queryResult) throw new Error("The record wasn't found");
 
   // Since the values are returned as a plain array of values, the Todo object is created below
 
