@@ -1,6 +1,6 @@
 import { Database } from "bun:sqlite";
 
-const db = new Database("todosdb.sqlite", { create: true });
+const db = new Database("./database/todosdb.sqlite", { create: true });
 
 db.run(
   "CREATE TABLE todos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, completed INTEGER);"
