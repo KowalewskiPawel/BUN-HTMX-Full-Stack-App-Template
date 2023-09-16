@@ -4,7 +4,12 @@ import * as elements from "typed-html";
 import { BaseHTML } from "./pages";
 import { db } from "./MOCKS/db";
 import { TodoItem, TodoList } from "./components";
-import { addTodo, getAllTodos } from "./database/dbMethods";
+import {
+  addTodo,
+  getAllTodos,
+  getTodo,
+  updateTodo,
+} from "./database/dbMethods";
 
 const app = new Elysia()
   .use(html())
@@ -26,10 +31,10 @@ const app = new Elysia()
     return <TodoList todos={allTodos} />;
   })
   .post("/todos/toggle/:id", ({ params }) => {
-    const todo = db.find((todo) => todo.id === params.id);
+    const todo = getTodo(params.id);
     if (todo) {
-      todo.completed = !todo.completed;
-      return <TodoItem {...todo} />;
+      const updatedTodo = updateTodo(todo.id, !todo.completed);
+      return <TodoItem {...updatedTodo} />;
     }
   })
   .delete("/todos/:id", ({ params }) => {
@@ -45,7 +50,7 @@ const app = new Elysia()
         throw new Error("Content cannot be empty");
       }
       const newTodo = addTodo(body.content);
-      
+
       return <TodoItem {...newTodo} />;
     },
     {

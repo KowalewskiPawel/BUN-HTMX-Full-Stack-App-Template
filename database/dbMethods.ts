@@ -6,6 +6,18 @@ const db = new Database("./database/todosdb.sqlite");
 
 const readQuery = db.query("SELECT * FROM todos");
 
+export const getTodo = (id: string) => {
+  const readQuery = db.query("SELECT * FROM todos WHERE id = $id");
+
+  const queryResult = readQuery.values({ $id: id })[0];
+
+  return {
+    id: queryResult[0],
+    content: queryResult[1],
+    completed: !!queryResult[2],
+  } as Todo;
+};
+
 export const getAllTodos = (): Todo[] =>
   readQuery.values().map((todo) => ({
     id: todo[0],
@@ -26,13 +38,22 @@ export const addTodo = (content: string) => {
     $completed: 0,
   });
 
-  const readQuery = db.query("SELECT * FROM todos WHERE id=$id");
+  const queryResult = getTodo(newTodoId);
 
-  const queryResult = readQuery.values({ $id: newTodoId })[0];
+  return queryResult;
+};
 
-  return {
-    id: queryResult[0],
-    content: queryResult[1],
-    completed: !!queryResult[2],
-  } as Todo;
+export const updateTodo = (id: string, completed: boolean) => {
+  const updateQuery = db.query(
+    "UPDATE todos SET completed = $completed WHERE id = $id"
+  );
+
+  updateQuery.all({
+    $id: id,
+    $completed: completed ? 1 : 0,
+  });
+
+  const queryResult = getTodo(id);
+
+  return queryResult;
 };
