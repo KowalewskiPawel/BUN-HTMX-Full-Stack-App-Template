@@ -173,4 +173,4 @@ dist
 
 # DB
 
-/database/todosdb.sqlite
+/src/database/todosdb.sqlite

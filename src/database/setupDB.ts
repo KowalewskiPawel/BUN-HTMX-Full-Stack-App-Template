@@ -1,7 +1,7 @@
 import { Database } from "bun:sqlite";
 import { randomUUID } from "crypto";
 
-const db = new Database("./database/todosdb.sqlite", { create: true });
+const db = new Database("./src/database/todosdb.sqlite", { create: true });
 
 db.run(
   "CREATE TABLE todos (id TEXT PRIMARY KEY UNIQUE, content TEXT, completed INTEGER);"

@@ -2,7 +2,7 @@ import { Database } from "bun:sqlite";
 import { randomUUID } from "crypto";
 import { Todo } from "../types/Todo";
 
-const db = new Database("./database/todosdb.sqlite");
+const db = new Database("./src/database/todosdb.sqlite");
 
 const readQuery = db.query("SELECT * FROM todos");
 

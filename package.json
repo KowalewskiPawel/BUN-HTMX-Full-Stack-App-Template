@@ -5,7 +5,7 @@
   "scripts": {
     "start": "bun run index.tsx",
     "dev": "bun run --watch index.tsx",
-    "setup_db": "bun run ./database/setupDB.ts"
+    "setup_db": "bun run ./src/database/setupDB.ts"
   },
   "devDependencies": {
     "bun-types": "latest",

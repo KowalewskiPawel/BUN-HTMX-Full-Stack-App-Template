@@ -1,15 +1,15 @@
 import { Elysia, t } from "elysia";
 import { html } from "@elysiajs/html";
 import * as elements from "typed-html";
-import { BaseHTML } from "./pages";
-import { TodoItem, TodoList } from "./components";
+import { BaseHTML } from "./src/pages";
+import { TodoItem, TodoList } from "./src/components";
 import {
   addTodo,
   deleteTodo,
   getAllTodos,
   getTodo,
   updateTodo,
-} from "./database/dbMethods";
+} from "./src/database/dbMethods";
 
 const app = new Elysia()
   .use(html())
