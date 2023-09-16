@@ -57,3 +57,13 @@ export const updateTodo = (id: string, completed: boolean) => {
 
   return queryResult;
 };
+
+export const deleteTodo = (id: string) => {
+    const deleteQuery = db.query(
+      "DELETE FROM todos WHERE id = $id"
+    );
+  
+    deleteQuery.all({
+      $id: id
+    });
+  };

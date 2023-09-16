@@ -2,10 +2,10 @@ import { Elysia, t } from "elysia";
 import { html } from "@elysiajs/html";
 import * as elements from "typed-html";
 import { BaseHTML } from "./pages";
-import { db } from "./MOCKS/db";
 import { TodoItem, TodoList } from "./components";
 import {
   addTodo,
+  deleteTodo,
   getAllTodos,
   getTodo,
   updateTodo,
@@ -38,9 +38,9 @@ const app = new Elysia()
     }
   })
   .delete("/todos/:id", ({ params }) => {
-    const todo = db.find((todo) => todo.id === params.id);
+    const todo = getTodo(params.id);
     if (todo) {
-      db.splice(db.indexOf(todo), 1);
+      deleteTodo(todo.id);
     }
   })
   .post(
