@@ -63,7 +63,7 @@ const app = new Elysia()
       // The endpoint for adding new Todo item to the list
 
       // Firstly we check if there is anything in the request body's content key
-      if (body.content.length) {
+      if (!body.content.length) {
         throw new Error("Content cannot be empty");
       }
 
