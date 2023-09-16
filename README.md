@@ -1,4 +1,6 @@
-# BUN-HTMX Template
+# BUN HTMX Full Stack App Template
+
+Full Stack App templated based HTMX, Server Side Components, SQLite, Elysia, and Bun as JavaScript Runtime.
 
 ### Installing the dependencies
 
